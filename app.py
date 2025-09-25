@@ -278,16 +278,20 @@ def get_database_stats():
     }
 
 def main():
-    # Initialize database
-    init_database()
-    
-    # Header
-    st.markdown("""
-    <div style="background: linear-gradient(135deg, #4D148C 0%, #7B2CBF 100%); color: white; padding: 2rem; border-radius: 12px; margin-bottom: 2rem;">
-        <h1 style="margin: 0; font-size: 2.5rem;">🏭 Toronto B2B Lead Generator</h1>
-        <p style="margin: 0.5rem 0 0 0; font-size: 1.1rem; opacity: 0.9;">Find and store B2B companies with domain extraction</p>
-    </div>
-    """, unsafe_allow_html=True)
+    try:
+        # Initialize database
+        init_database()
+        
+        # Header
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, #4D148C 0%, #7B2CBF 100%); color: white; padding: 2rem; border-radius: 12px; margin-bottom: 2rem;">
+            <h1 style="margin: 0; font-size: 2.5rem;">🏭 Toronto B2B Lead Generator</h1>
+            <p style="margin: 0.5rem 0 0 0; font-size: 1.1rem; opacity: 0.9;">Find and store B2B companies with domain extraction</p>
+        </div>
+        """, unsafe_allow_html=True)
+    except Exception as e:
+        st.error(f"Error initializing app: {str(e)}")
+        return
     
     # Database stats
     stats = get_database_stats()
