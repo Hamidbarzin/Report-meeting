@@ -1,85 +1,52 @@
-# Toronto Business Lead Generator 🚀
+# Toronto B2B Lead Generator 🚀
 
-A web-based mini-app that acts as a "lead generation marketing bot" for Toronto businesses that need delivery or international shipping services.
+A modern web application for generating B2B leads in Toronto, focusing on importers, distributors, wholesalers, suppliers, fulfillment/3PL, logistics, and e-commerce companies.
 
 ## Features
 
-- **Minimal UI**: Fast-loading, clean interface built with Streamlit
-- **Multiple Data Sources**: Yelp Fusion API and OpenStreetMap/Overpass API
+- **Modern UI**: Clean, professional interface with FedEx-style design
+- **Google Places API**: Real business data with phone numbers and websites
+- **Email Enrichment**: Hunter.io API + website scraping for verified emails
 - **Smart Categorization**: Automatic detection of delivery and shipping potential
-- **AI Analysis**: Optional OpenAI-powered analysis for business insights
-- **Export Functionality**: CSV export for lead management
-- **Caching**: Request caching for improved performance
+- **Multiple Views**: Card view and table view for results
+- **Export Functionality**: CSV export with all business details
+- **Rate Limiting**: Built-in protection against API limits
 - **Error Handling**: Robust error handling with user-friendly messages
 
 ## Quick Start
 
-### Option 1: Demo Version (Recommended for Testing)
+### Prerequisites
 
-The demo version works immediately without any setup:
+1. **Google Cloud Console**:
+   - Enable Places API and Geocoding API
+   - Create API key with appropriate restrictions
 
+2. **Hunter.io API** (Optional):
+   - Sign up at [Hunter.io](https://hunter.io)
+   - Get your API key
+
+### Installation
+
+1. **Clone the repository**:
 ```bash
-streamlit run app_minimal.py
+git clone https://github.com/Hamidbarzin/Report-meeting.git
+cd Report-meeting
 ```
 
-This version includes:
-- ✅ Sample business data
-- ✅ All UI features
-- ✅ CSV export
-- ✅ Business categorization
-- ❌ Real API data (Yelp/OSM)
-- ❌ AI analysis
-
-### Option 2: Full Version (Requires Setup)
-
-For the full version with real data sources and AI analysis:
-
-#### 1. Install Dependencies
-
+2. **Install dependencies**:
 ```bash
 pip install -r requirements.txt
 ```
 
-#### 2. Set Up Environment Variables
-
-Copy the example environment file and add your API keys:
-
+3. **Set up environment variables**:
 ```bash
-cp env_example.txt .env
+export GOOGLE_API_KEY="your_google_api_key_here"
+export HUNTER_API_KEY="your_hunter_api_key_here"  # Optional
 ```
 
-Edit `.env` and add your API keys:
-
-```env
-# Yelp Fusion API Key (required for Yelp data source)
-YELP_API_KEY=your_yelp_api_key_here
-
-# OpenAI API Key (optional, for AI analysis)
-OPENAI_API_KEY=your_openai_api_key_here
-
-# App Configuration
-TORONTO_LAT=43.6532
-TORONTO_LON=-79.3832
-TORONTO_RADIUS=50000
-```
-
-#### 3. Get API Keys
-
-##### Yelp Fusion API (Required for Yelp data)
-1. Go to [Yelp Fusion API](https://www.yelp.com/developers/documentation/v3/authentication)
-2. Create a Yelp account
-3. Create a new app
-4. Copy your API key
-
-##### OpenAI API (Optional for AI analysis)
-1. Go to [OpenAI API](https://platform.openai.com/api-keys)
-2. Create an account
-3. Generate a new API key
-
-#### 4. Run the Full Application
-
+4. **Run the application**:
 ```bash
-streamlit run app.py
+streamlit run app_final_b2b.py
 ```
 
 The app will open in your browser at `http://localhost:8501`
@@ -88,74 +55,55 @@ The app will open in your browser at `http://localhost:8501`
 
 ### Search Filters
 
-- **Search Term**: Enter keywords to search for specific business types
-- **Business Categories**: Select from predefined categories (Restaurant, Grocery, Pharmacy, etc.)
-- **Number of Results**: Use the slider to control how many businesses to return
-- **Data Source**: Choose between Yelp (requires API key) or OpenStreetMap (free)
-- **AI Analysis**: Enable AI-powered analysis for delivery/shipping potential
+- **Keywords**: Enter specific business types (e.g., "electronics", "auto parts")
+- **Business Focus**: Select from predefined B2B categories
+- **Location**: Search in specific areas (default: Toronto, ON)
+- **Max Results**: Control the number of businesses returned
+- **Email Enrichment**: Enable Hunter.io and website scraping for emails
 
-### Results
+### Results Display
 
-The app displays businesses in a table with the following information:
+The app shows businesses with:
 
-- **Name**: Business name
-- **Category**: Business category
-- **Phone**: Contact phone number
-- **Address**: Business address
-- **URL**: Website URL
-- **Rating**: Average rating (Yelp only)
-- **Review Count**: Number of reviews (Yelp only)
-- **Flags**: 
-  - `likely_delivery`: Business likely needs delivery services
-  - `potential_worldwide_shipping`: Business has potential for international shipping
-  - `is_logistics`: Business is a logistics/freight service provider
+- **Name & Category**: Business information
+- **Contact Details**: Phone, email, website, address
+- **Rating & Reviews**: Google Places ratings
+- **Flags**: Delivery, worldwide shipping, logistics indicators
+- **Source Tracking**: Email source (Hunter.io vs Scraping)
 
 ### Export
 
-Click "Export to CSV" to download the results for further analysis or lead management.
+Click "Export to CSV" to download all results with complete contact information.
 
-## Data Sources
+## API Integration
 
-### Yelp Fusion API
-- **Pros**: Rich data with ratings, reviews, and detailed business information
-- **Cons**: Requires API key and has rate limits
-- **Best for**: High-quality business data with ratings and reviews
+### Google Places API
+- **Text Search**: Find businesses by keywords
+- **Place Details**: Get phone, website, and address
+- **Geocoding**: Location-based searches
 
-### OpenStreetMap/Overpass
-- **Pros**: Free, no API key required, comprehensive coverage
-- **Cons**: Limited business details, no ratings/reviews
-- **Best for**: Basic business information when Yelp is not available
+### Hunter.io API
+- **Domain Search**: Find verified emails for business domains
+- **Contact Roles**: Identify contact positions
+- **Rate Limiting**: Built-in delays to respect limits
 
-## Business Categorization
-
-The app uses rule-based categorization to detect:
-
-1. **Delivery Potential**: Based on business category and keywords
-2. **Shipping Potential**: Based on business type and e-commerce indicators
-3. **Logistics Services**: Based on business name and category keywords
-
-### AI Analysis (Optional)
-
-When enabled, the app uses OpenAI's GPT-3.5-turbo to analyze businesses for:
-
-- Delivery service needs
-- International shipping potential
-- Logistics service provider identification
-- Confidence scores and reasoning
+### Website Scraping
+- **Fallback Method**: When Hunter.io quota is reached
+- **Email Patterns**: Multiple regex patterns for email detection
+- **Contact Pages**: Scans common contact page URLs
 
 ## Project Structure
 
 ```
 market_place/
-├── app.py                 # Main Streamlit application
-├── requirements.txt       # Python dependencies
-├── env_example.txt       # Environment variables example
-├── README.md             # This file
-└── src/
-    ├── __init__.py
-    ├── data_sources.py   # Yelp and OSM data sources
-    ├── categorization.py # Business categorization logic
-    ├── ai_analysis.py    # AI-powered analysis
+├── app_final_b2b.py        # Main application (recommended)
+├── app_modern_hunter.py    # Alternative version
+├── app_hunter_enriched.py  # Hunter.io focused version
+├── requirements.txt        # Python dependencies
+├── README.md              # This file
+└── src/                   # Source modules
+    ├── data_sources.py    # API integrations
+    ├── categorization.py  # Business classification
     └── utils.py          # Utility functions
 ```
 
@@ -163,50 +111,38 @@ market_place/
 
 ### Environment Variables
 
-- `YELP_API_KEY`: Yelp Fusion API key (required for Yelp data)
-- `OPENAI_API_KEY`: OpenAI API key (optional for AI analysis)
-- `TORONTO_LAT`: Toronto latitude (default: 43.6532)
-- `TORONTO_LON`: Toronto longitude (default: -79.3832)
-- `TORONTO_RADIUS`: Search radius in meters (default: 50000)
+- `GOOGLE_API_KEY`: Google Places API key (required)
+- `HUNTER_API_KEY`: Hunter.io API key (optional)
 
 ### Customization
 
-You can modify the search radius, add new business categories, or adjust the categorization rules by editing the respective files in the `src/` directory.
-
-## Error Handling
-
-The app includes comprehensive error handling for:
-
-- Missing API keys
-- Network timeouts
-- Rate limiting
-- Invalid responses
-- Data processing errors
+- Modify business focus categories in the UI
+- Adjust email patterns in scraping functions
+- Customize flag detection logic
+- Change UI styling and colors
 
 ## Performance
 
-- **Caching**: 1-hour TTL cache for API requests
-- **Rate Limiting**: Built-in delays to respect API limits
-- **Lazy Loading**: Data loaded only when needed
-- **Minimal UI**: Fast initial load time
+- **Rate Limiting**: 1.5-second delays between API calls
+- **Progress Indicators**: Real-time progress bars
+- **Caching**: Efficient data processing
+- **Error Recovery**: Graceful handling of API failures
 
 ## Troubleshooting
 
 ### Common Issues
 
-1. **"Yelp API key not found"**: Make sure you've set the `YELP_API_KEY` environment variable
-2. **"No businesses found"**: Try different search terms or categories
-3. **"AI analysis not working"**: Check your `OPENAI_API_KEY` and ensure you have credits
-4. **Slow loading**: The app caches results, so subsequent searches should be faster
+1. **"No businesses found"**: Try different keywords or business focus types
+2. **"Rate limit reached"**: Wait a few minutes before retrying
+3. **"Email enrichment disabled"**: Enable it in Advanced Options
+4. **"API key missing"**: Set your Google API key in environment
 
 ### Getting Help
 
-If you encounter issues:
-
-1. Check the console output for error messages
-2. Verify your API keys are correct
+1. Check the console output for detailed error messages
+2. Verify your API keys are correct and have proper permissions
 3. Ensure you have an internet connection
-4. Check if the APIs are experiencing downtime
+4. Check API quotas and billing status
 
 ## License
 
@@ -218,4 +154,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## Support
 
-For support, please open an issue on the project repository.
+For support, please open an issue on the [GitHub repository](https://github.com/Hamidbarzin/Report-meeting).
