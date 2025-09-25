@@ -1,0 +1,10 @@
+# Yelp Fusion API Key (required for Yelp data source)
+YELP_API_KEY=your_yelp_api_key_here
+
+# OpenAI API Key (optional, for AI analysis)
+OPENAI_API_KEY=your_openai_api_key_here
+
+# App Configuration
+TORONTO_LAT=43.6532
+TORONTO_LON=-79.3832
+TORONTO_RADIUS=50000
